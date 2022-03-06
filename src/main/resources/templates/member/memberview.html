@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BRS</title>
+</head>
+<body>
+<section>
+   <ul>
+       <li th:text="${memberDto.name}"> </li>
+       <li th:text="${memberDto.email}"> </li>
+       <li th:text="${memberDto.phoneNumber}"> </li>
+       <li th:text="${memberDto.address}"> </li>
+   </ul>
+    <img th:src="${memberDto.filePath}" alt="" height="30%" width="30%">
+</section>
+
+</body>
+</html>

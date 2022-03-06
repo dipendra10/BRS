@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BRS</title>
+</head>
+<body>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class = "col-md-3">
+                <br>
+                <h3 style="text-align: center;color: black" > Book Form </h3>
+                <hr>
+                <form  th:action="@{~/creating}" method="post" th:object="${bookDto}" enctype="multipart/form-data">
+                    <input type="text" th:href="*{id}" hidden>
+                    <div class="row g-2">
+                        <div class="col-md">
+                                <label class="text-dark">Select Authors</label>
+                                <select th:field="*{authorDtoList}" class="form-control" multiple>
+                                    <option th:each="name:${authorDto}" th:value="${name.id}" th:text="${name.name}"> </option>
+                                </select>
+                        </div>
+
+                        <div class="col-md">
+                                <label class="text-dark">Select Category</label>
+                                <select th:field="*{categoryDto}" class="form-control" >
+                                <option th:each="for:${categoryDto}" th:value="${for.id}" th:text="${for.name}"></option>
+                                </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Name of Book</label>
+                        <input type="text" class="form-control" th:field="*{name}"  placeholder="Enter Book Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Pages</label>
+                        <input type="text" class="form-control" th:field="*{numberOfPages}"  placeholder="Enter Page Numbers">
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">ISBN Number</label>
+                        <input type="text" class="form-control" th:field="*{isbnNumber}" placeholder="Enter ISBN ">
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Rating</label>
+                        <input type="text" class="form-control" th:field="*{rating}" placeholder="Enter Rating">
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Stock</label>
+                        <input type="text" class="form-control" th:field="*{stockCount}" placeholder="Enter Stock">
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Published Date</label>
+                        <input type="date" class="form-control" th:field="*{publishedDate}" placeholder="Published Date">
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Photo</label>
+                        <input type="file" class="form-control" th:field="*{multipartFile}">
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="reset" class="btn btn-danger">Reset</button>
+                </form>
+                <p th:text="${message}"> </p>
+            </div>
+
+            <div class = "col-md-9">
+                <br>
+                <h3 style="text-align: center;"> Book's List</h3>
+                <hr>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">S.N</th>
+                        <th scope="col">BOOK NAME</th>
+                        <th scope="col">NUMBER OF PAGES</th>
+                        <th scope="col">ISBN</th>
+                        <th scope="col">RATING</th>
+                        <th scope="col">STOCK COUNT</th>
+                        <th scope="col">PUBLISHED DATE</th>
+                        <th scope="col">ACTION</th>
+                    </tr>
+                    </thead>
+
+                   <tbody>
+                   <tr th:each="book,loop : ${bookDtoList}">
+                       <th th:text="${loop.count}"></th>
+                       <td th:text="${book.name}"></td>
+                       <td th:text="${book.numberOfPages}"></td>
+                       <td th:text="${book.isbnNumber}"></td>
+                       <td th:text="${book.rating}"></td>
+                       <td th:text="${book.stockCount}"></td>
+                       <td th:text="${book.publishedDate}"></td>
+                       <td>
+<!--                           <a th:href="@{~/view-by/}+${member.id}">-->
+<!--                                <button type="button" class="btn btn-sm btn-info">View</button>-->
+<!--                           </a>-->
+                           <a th:href="@{~/find-id/}+${book.id}">
+                               <button type="button" class="btn btn-sm btn-success">Update</button>
+                           </a>
+                           <a th:href="@{~/delete-id/}+${book.id}">
+                                <button type="button" class="btn btn-sm btn-danger">Delete</button>
+                           </a>
+                       </td>
+                   </tr>
+                   </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

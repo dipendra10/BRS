@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BRS</title>
+</head>
+<body>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class = "col-md-4">
+                <br>
+                <h3 style="text-align: center;color: black" > Book Transaction Form </h3>
+                <hr>
+                <form  th:action="@{~/saved}" th:method="post"  th:object="${bookTransactionDto}" >
+                    <input type="text" th:href="*{id}" hidden>
+
+                    <div class="row g-2">
+                        <div class="col-md">
+                            <label class="text-dark">Select Books</label>
+                            <select th:field="*{bookDto}" class="form-control" >
+                                <option th:each="name:${bookDto}" th:value="${name.id}" th:text="${name.name}"> </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md">
+                            <label class="text-dark">Select Member</label>
+                            <select th:field="*{memberDto}" class="form-control" >
+                                <option th:each="for:${memberDto}" th:value="${for.id}" th:text="${for.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Code</label>
+                        <input type="text" class="form-control" th:field="*{code}"  placeholder="Code of Books" value="name" >
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Issue Date</label>
+                        <input type="date" class="form-control" th:field="*{fromDate}" >
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Return Date</label>
+                        <input type="date" class="form-control" th:field="*{toDate}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Rent Status</label>
+                        <select th:field="*{rentTypes}" class="form-control" >
+                            <option th:each="name:${T(com.wicc.crud.enums.RentStatus).values()}"
+                                    th:value="${name}" th:text="${name.name}"> </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Active Closed</label>
+                        <input type="text" class="form-control" th:field="*{activeClosed}">
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="reset" class="btn btn-danger">Reset</button>
+                </form>
+                <p th:text="${message}"> </p>
+            </div>
+
+            <div class = "col-md-8">
+                <br>
+                <h3 style="text-align: center;"> BookTransaction's List</h3>
+                <hr>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">S.N</th>
+                        <th scope="col">CODE</th>
+                        <th scope="col">ISSUE DATE</th>
+                        <th scope="col">RETURN DATE</th>
+                        <th scope="col">RENT STATUS</th>
+                        <th scope="col">ACTIVE CLOSED</th>
+                        <th scope="col">ACTION</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="transaction,loop : ${bookTransactionDtoList}">
+                        <th th:text="${loop.count}"></th>
+                        <td th:text="${transaction.code}"></td>
+                        <td th:text="${transaction.fromDate}"></td>
+                        <td th:text="${transaction.toDate}"></td>
+                        <td th:text="${transaction.rentTypes.name}"></td>
+                        <td th:text="${transaction.activeClosed}"></td>
+                        <td>
+                            <a th:href="@{~/by-id/}+${book.id}">
+                                <button type="button" class="btn btn-sm btn-success">Update</button>
+                            </a>
+                            <a th:href="@{~/d-id/}+${book.id}">
+                                <button type="button" class="btn btn-sm btn-danger">Delete</button>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
+

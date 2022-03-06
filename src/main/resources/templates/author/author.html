@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BRS</title>
+</head>
+<body>
+ <section>
+    <div class="container">
+        <div class="row">
+            <div class = "col-md-4">
+                <br>
+                <h3 style="text-align: center;color: black" > Author Form </h3>
+                <hr>
+                <form  th:action="@{~/save}" th:method="post"  th:object="${authorDto}" >
+                    <input type="text" th:href="*{id}" hidden>
+                    <div class="mb-3">
+                        <label  class="form-label">Full Name</label>
+                        <input type="text" class="form-control" th:field="*{name}"  placeholder="Your full name" value="name" required>
+                        <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"> </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">E-mail</label>
+                        <input type="email" class="form-control" th:field="*{email}"  placeholder="example@gmail.com" >
+                        <p class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{name}"> </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label  class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" th:field="*{mobileNumber}" placeholder="Your phone number" required>
+                        <p class="error" th:if="${#fields.hasErrors('mobileNumber')}" th:errors="*{mobileNumber}"> </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="reset" class="btn btn-danger">Reset</button>
+                </form>
+                <p th:text="${message}"> </p>
+            </div>
+
+            <div class = "col-md-8">
+                <br>
+                <h3 style="text-align: center;"> Author's List</h3>
+                <hr>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">S.N</th>
+                        <th scope="col">FULL NAME</th>
+                        <th scope="col">EMAIL</th>
+                        <th scope="col">PHONE NUMBER</th>
+                        <th scope="col">ACTION</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                     <tr th:each="author,loop : ${authorDtoList}">
+                        <th th:text="${loop.count}"></th>
+                        <td th:text="${author.name}"></td>
+                        <td th:text="${author.email}"></td>
+                        <td th:text="${author.mobileNumber}"></td>
+                        <td>
+                            <a th:href="@{~/findbyid/}+${author.id}">
+                                <button type="button" class="btn btn-sm btn-success">Update</button>
+                            </a>
+                            <a th:href="@{~/delete-by-id/}+${author.id}">
+                                <button type="button" class="btn btn-sm btn-danger">Delete</button>
+                            </a>
+                        </td>
+                     </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+ </section>
+
+</body>
+</html>
+
